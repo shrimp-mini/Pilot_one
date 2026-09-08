@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../../data/site";
+
 interface Props {
   href: string;
   kicker: string;
@@ -12,7 +14,7 @@ const { href, kicker, title, meta, variant = "card" } = Astro.props;
 
 <a
   class:list={["card", variant === "plate" && "card-plate"]}
-  href={href}
+  href={withBase(href)}
   data-stack-card={variant === "plate" ? "" : undefined}
 >
   <span class:list={["card-kicker", variant === "plate" && "mask-reveal"]}>{kicker}</span>

@@ -2,7 +2,7 @@
 
 ポートフォリオサイト。仕様は `docs/site-architecture.md` と `docs/motion-system.md`。
 
-実装は段階6まで完了（静的骨格 → 灯の補間とピン → 名前と重なり → 見出し開きと目盛り → 共有タイル → 耐久確認）。
+公開: https://shrimp-mini.github.io/Pilot_one/
 
 ```bash
 cd C:\AI_learning\Pilot_one
@@ -10,7 +10,7 @@ npm install
 npm run dev
 ```
 
-開発サーバーは **http://localhost:4321/** 。`dist/index.html` をファイルとして開かない。
+開発サーバーは **http://localhost:4321/Pilot_one/** 。`dist/index.html` をファイルとして開かない。
 
 本名・肩書きは `src/data/site.ts` だけ差し替える。制作物は `src/content/works/`、連載は `src/content/blog/`。
 

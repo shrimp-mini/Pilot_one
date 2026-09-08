@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../../data/site";
+
 interface Props {
   href: string;
   title: string;
@@ -10,7 +12,7 @@ const { href, title, summary, date } = Astro.props;
 const dateLabel = date.toISOString().slice(0, 10);
 ---
 
-<a class="card" href={href}>
+<a class="card" href={withBase(href)}>
   <span class="card-kicker">{dateLabel}</span>
   <h2 class="card-title">{title}</h2>
   <p class="muted">{summary}</p>

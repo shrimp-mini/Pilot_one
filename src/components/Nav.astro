@@ -1,5 +1,5 @@
 ---
-import { site } from "../data/site";
+import { site, withBase } from "../data/site";
 
 const current = Astro.url.pathname.replace(/\/$/, "") || "/";
 ---
@@ -7,11 +7,12 @@ const current = Astro.url.pathname.replace(/\/$/, "") || "/";
 <nav class="site-nav" aria-label="目録">
   {
     site.nav.map((item) => {
-      const hrefPath = item.href.replace(/\/$/, "") || "/";
+      const href = withBase(item.href);
+      const hrefPath = href.replace(/\/$/, "") || "/";
       const isCurrent =
         current === hrefPath || current.startsWith(`${hrefPath}/`);
       return (
-        <a href={item.href} aria-current={isCurrent ? "page" : undefined}>
+        <a href={href} aria-current={isCurrent ? "page" : undefined}>
           {item.label}
         </a>
       );

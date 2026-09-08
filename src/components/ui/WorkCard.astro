@@ -1,4 +1,6 @@
 ---
+import { withBase } from "../../data/site";
+
 interface Props {
   href: string;
   title: string;
@@ -13,7 +15,7 @@ const dateLabel = date.toISOString().slice(0, 10);
 
 <a
   class:list={["card", variant === "plate" && "card-plate"]}
-  href={href}
+  href={withBase(href)}
   data-stack-card={variant === "plate" ? "" : undefined}
 >
   <span class="card-kicker">{dateLabel}</span>

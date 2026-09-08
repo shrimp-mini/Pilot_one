@@ -1,9 +1,9 @@
 ---
-import { site } from "../data/site";
+import { site, withBase } from "../data/site";
 import Nav from "./Nav.astro";
 ---
 
 <header class="site-header" transition:name="site-header" transition:animate="none">
-  <a class="logo" href="/" data-identity-logo>{site.name}</a>
+  <a class="logo" href={withBase("/")} data-identity-logo>{site.name}</a>
   <Nav />
 </header>

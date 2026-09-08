@@ -6,7 +6,7 @@ import SectionTheme from "../components/motion/SectionTheme.astro";
 import StackedCards from "../components/motion/StackedCards.astro";
 import MaskReveal from "../components/motion/MaskReveal.astro";
 import SharedTile from "../components/motion/SharedTile.astro";
-import { site } from "../data/site";
+import { site, withBase } from "../data/site";
 
 const works = await getCollection("works");
 const posts = (await getCollection("blog")).filter((entry) => !entry.data.draft);
@@ -101,7 +101,7 @@ const latestCert = certs[0];
       </MaskReveal>
       <p>
         <SharedTile name="tile-hub-contact">
-          <a href="/contact">連絡先ページを開く</a>
+          <a href={withBase("/contact")}>連絡先ページを開く</a>
         </SharedTile>
       </p>
     </div>
