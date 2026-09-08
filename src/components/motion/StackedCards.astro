@@ -1,0 +1,11 @@
+---
+interface Props {
+  variant: "hub" | "work";
+}
+
+const { variant } = Astro.props;
+---
+
+<div class:list={["stack", `stack-${variant}`]} data-stacked={variant}>
+  <slot />
+</div>

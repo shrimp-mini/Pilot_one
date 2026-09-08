@@ -1,0 +1,13 @@
+---
+interface Props {
+  id?: string;
+}
+
+const { id } = Astro.props;
+---
+
+<div id={id} class="sticky-expand">
+  <div class="sticky-expand-inner">
+    <slot />
+  </div>
+</div>

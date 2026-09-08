@@ -1,0 +1,22 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  date: Date;
+  variant?: "card" | "plate";
+}
+
+const { href, title, summary, date, variant = "card" } = Astro.props;
+const dateLabel = date.toISOString().slice(0, 10);
+---
+
+<a
+  class:list={["card", variant === "plate" && "card-plate"]}
+  href={href}
+  data-stack-card={variant === "plate" ? "" : undefined}
+>
+  <span class="card-kicker">{dateLabel}</span>
+  <h2 class="card-title">{title}</h2>
+  <p class="muted">{summary}</p>
+</a>

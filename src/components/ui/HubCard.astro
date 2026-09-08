@@ -1,0 +1,22 @@
+---
+interface Props {
+  href: string;
+  kicker: string;
+  title: string;
+  meta?: string;
+  variant?: "card" | "plate";
+}
+
+const { href, kicker, title, meta, variant = "card" } = Astro.props;
+---
+
+<a
+  class:list={["card", variant === "plate" && "card-plate"]}
+  href={href}
+  data-stack-card={variant === "plate" ? "" : undefined}
+>
+  <span class:list={["card-kicker", variant === "plate" && "mask-reveal"]}>{kicker}</span>
+  <h2 class="card-title">{title}</h2>
+  {meta && <p class="card-meta">{meta}</p>}
+  <span class="card-meta">開く</span>
+</a>

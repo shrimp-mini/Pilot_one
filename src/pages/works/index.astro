@@ -1,0 +1,86 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WorkCard from "../../components/ui/WorkCard.astro";
+import StackedCards from "../../components/motion/StackedCards.astro";
+import StickyExpand from "../../components/motion/StickyExpand.astro";
+import MaskReveal from "../../components/motion/MaskReveal.astro";
+import SharedTile from "../../components/motion/SharedTile.astro";
+
+const works = (await getCollection("works")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const stacked = works.slice(0, 5);
+const rest = works.slice(5);
+const useStack = stacked.length > 1;
+---
+
+<BaseLayout title="制作" theme="paper" description="制作物の一覧">
+  <section class="band band-paper">
+    <div class="shell">
+      <p class="card-kicker">制作</p>
+      <SharedTile name="tile-hub-works">
+        <MaskReveal as="h1">制作物</MaskReveal>
+      </SharedTile>
+      {
+        works.length === 0 && <p class="empty">準備中</p>
+      }
+      {
+        !useStack && works.length > 0 && (
+          <div class="card-grid works">
+            {works.map((work) => (
+              <SharedTile name={`tile-work-${work.id}`}>
+                <WorkCard
+                  href={`/works/${work.id}`}
+                  title={work.data.title}
+                  summary={work.data.summary}
+                  date={work.data.date}
+                />
+              </SharedTile>
+            ))}
+          </div>
+        )
+      }
+    </div>
+    {
+      useStack && (
+        <StackedCards variant="work">
+          {stacked.map((work) => (
+            <StickyExpand>
+              <div class="shell">
+                <SharedTile name={`tile-work-${work.id}`}>
+                  <WorkCard
+                    href={`/works/${work.id}`}
+                    title={work.data.title}
+                    summary={work.data.summary}
+                    date={work.data.date}
+                    variant="plate"
+                  />
+                </SharedTile>
+              </div>
+            </StickyExpand>
+          ))}
+        </StackedCards>
+      )
+    }
+    {
+      useStack && rest.length > 0 && (
+        <div class="shell">
+          <div class="card-grid works">
+            {rest.map((work) => (
+              <SharedTile name={`tile-work-${work.id}`}>
+                <WorkCard
+                  href={`/works/${work.id}`}
+                  title={work.data.title}
+                  summary={work.data.summary}
+                  date={work.data.date}
+                />
+              </SharedTile>
+            ))}
+          </div>
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

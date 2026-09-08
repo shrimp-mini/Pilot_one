@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MaskReveal from "../components/motion/MaskReveal.astro";
+import SharedTile from "../components/motion/SharedTile.astro";
+
+const certs = await getCollection("certifications");
+---
+
+<BaseLayout title="奥付" theme="mist" description="資格の一覧">
+  <section class="band band-mist">
+    <div class="shell">
+      <p class="card-kicker">奥付</p>
+      <SharedTile name="tile-hub-certifications">
+        <MaskReveal as="h1">資格</MaskReveal>
+      </SharedTile>
+      {
+        certs.length === 0 ? (
+          <p class="empty">準備中</p>
+        ) : (
+          <table class="table-like">
+            <thead>
+              <tr>
+                <th>年月</th>
+                <th>名称</th>
+                <th>発行</th>
+              </tr>
+            </thead>
+            <tbody>
+              {certs.map((cert) => (
+                <tr>
+                  <td>{cert.data.date}</td>
+                  <td>
+                    {cert.data.url ? (
+                      <a href={cert.data.url}>{cert.data.name}</a>
+                    ) : (
+                      cert.data.name
+                    )}
+                  </td>
+                  <td>{cert.data.issuer}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

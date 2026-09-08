@@ -1,0 +1,90 @@
+---
+import { ClientRouter } from "astro:transitions";
+import type { ThemeId } from "../data/themes";
+import { site } from "../data/site";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import ScrollTicks from "../components/ScrollTicks.astro";
+import "../styles/tokens.css";
+import "../styles/base.css";
+import "../styles/layout.css";
+import "../styles/components.css";
+import "../styles/motion.css";
+import "@fontsource/newsreader/500.css";
+import "@fontsource/ibm-plex-sans/400.css";
+import "@fontsource/ibm-plex-sans/600.css";
+import "@fontsource/ibm-plex-sans-jp/400.css";
+import "@fontsource/ibm-plex-sans-jp/600.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  theme?: ThemeId;
+  page?: "home" | "sub";
+}
+
+const {
+  title,
+  description = site.lead,
+  theme = "paper",
+  page = "sub",
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${site.name}` : site.name;
+---
+
+<!doctype html>
+<html
+  lang="ja"
+  data-theme={theme}
+  data-theme-initial={theme}
+  data-page={page}
+  data-motion="on"
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{pageTitle}</title>
+    <ClientRouter />
+    <noscript>
+      <style>
+        html[data-motion="on"] .sticky-expand {
+          height: auto !important;
+        }
+        html[data-motion="on"] .sticky-expand-inner {
+          position: static !important;
+          height: auto !important;
+          padding-top: 0 !important;
+        }
+        html[data-motion="on"] .card-plate {
+          height: auto !important;
+          min-height: 10rem !important;
+        }
+        html[data-page="home"] .logo {
+          opacity: 1 !important;
+          pointer-events: auto !important;
+        }
+        html[data-motion="on"] .mask-reveal {
+          clip-path: none !important;
+          animation: none !important;
+        }
+      </style>
+    </noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">本文へ</a>
+    <Header />
+    <ScrollTicks page={page} />
+    <main id="main" class="site-main">
+      <slot />
+    </main>
+    <Footer />
+    <script src="../scripts/reduced-motion.ts"></script>
+    <script src="../scripts/section-theme.ts"></script>
+    <script src="../scripts/scroll-ticks.ts"></script>
+    <script src="../scripts/identity-pin.ts"></script>
+    <script src="../scripts/stacked-cards.ts"></script>
+  </body>
+</html>

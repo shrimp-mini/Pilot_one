@@ -1,0 +1,41 @@
+---
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import MaskReveal from "../../components/motion/MaskReveal.astro";
+import SharedTile from "../../components/motion/SharedTile.astro";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("blog")).filter(
+    (entry) => !entry.data.draft,
+  );
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<"blog">;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const dateLabel = post.data.date.toISOString().slice(0, 10);
+---
+
+<BaseLayout title={post.data.title} theme="mist" description={post.data.summary}>
+  <section class="band" data-theme-section data-to-theme="mist">
+    <SharedTile name={`tile-post-${post.id}`} class="shell">
+      <p class="card-kicker">{dateLabel}</p>
+      <MaskReveal as="h1">{post.data.title}</MaskReveal>
+      <p class="lead">{post.data.summary}</p>
+    </SharedTile>
+  </section>
+  <section class="band" data-theme-section data-to-theme="paper">
+    <div class="shell measure prose">
+      <Content />
+      <p><a href="/blog">一覧へ戻る</a></p>
+    </div>
+  </section>
+</BaseLayout>

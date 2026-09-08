@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MaskReveal from "../components/motion/MaskReveal.astro";
+import SharedTile from "../components/motion/SharedTile.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout title="刊記" theme="cover" description="連絡先">
+  <section class="band band-cover">
+    <SharedTile name="tile-hub-contact" class="shell hero-block">
+      <p class="card-kicker">刊記</p>
+      <MaskReveal as="h1">連絡先</MaskReveal>
+      <p class="lead">
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
+    </SharedTile>
+  </section>
+</BaseLayout>

@@ -1,0 +1,40 @@
+---
+import { site } from "../data/site";
+
+interface Props {
+  page?: "home" | "sub";
+}
+
+const { page = "sub" } = Astro.props;
+
+const homeTicks =
+  page === "home"
+    ? [
+        { id: "cover", label: "表紙" },
+        ...site.nav.map((item) => ({
+          id: item.tickId === "contact" ? "contact" : `hub-${item.tickId}`,
+          label: item.label,
+        })),
+      ]
+    : [];
+---
+
+<nav
+  class="scroll-ticks"
+  data-scroll-ticks
+  aria-label="ページ内の区間"
+  hidden={page !== "home"}
+>
+  <ol class="scroll-ticks-list" data-scroll-ticks-list>
+    {
+      homeTicks.map((tick) => (
+        <li>
+          <a href={`#${tick.id}`} data-tick-target={tick.id}>
+            <span class="scroll-tick-mark" aria-hidden="true" />
+            <span class="scroll-tick-label">{tick.label}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>

@@ -1,0 +1,109 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HubCard from "../components/ui/HubCard.astro";
+import SectionTheme from "../components/motion/SectionTheme.astro";
+import StackedCards from "../components/motion/StackedCards.astro";
+import MaskReveal from "../components/motion/MaskReveal.astro";
+import SharedTile from "../components/motion/SharedTile.astro";
+import { site } from "../data/site";
+
+const works = await getCollection("works");
+const posts = (await getCollection("blog")).filter((entry) => !entry.data.draft);
+const certs = await getCollection("certifications");
+
+const latestWork = works.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+)[0];
+const latestPost = posts.sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+)[0];
+const latestCert = certs[0];
+---
+
+<BaseLayout theme="cover" page="home" description={site.lead}>
+  <SectionTheme id="cover" theme="cover" pin>
+    <div class="shell hero-block">
+      <p class="card-kicker">表紙</p>
+      <h1 class="display-name" data-identity-pin>{site.name}</h1>
+    </div>
+  </SectionTheme>
+
+  <SectionTheme id="lead" theme="dusk">
+    <div class="shell">
+      <MaskReveal as="p" class="card-kicker">{site.role}</MaskReveal>
+      <MaskReveal as="p" class="lead">{site.lead}</MaskReveal>
+    </div>
+  </SectionTheme>
+
+  <StackedCards variant="hub">
+    <div class="hub-stack">
+      <SectionTheme id="hub-about" theme="dusk" pin>
+        <div class="shell">
+          <SharedTile name="tile-hub-about">
+            <HubCard
+              href="/about"
+              kicker="略歴"
+              title="人物と経歴"
+              meta="職歴とスキルのサマリ"
+              variant="plate"
+            />
+          </SharedTile>
+        </div>
+      </SectionTheme>
+      <SectionTheme id="hub-works" theme="paper" pin>
+        <div class="shell">
+          <SharedTile name="tile-hub-works">
+            <HubCard
+              href="/works"
+              kicker="制作"
+              title="制作物"
+              meta={latestWork ? latestWork.data.title : "準備中"}
+              variant="plate"
+            />
+          </SharedTile>
+        </div>
+      </SectionTheme>
+      <SectionTheme id="hub-blog" theme="mist" pin>
+        <div class="shell">
+          <SharedTile name="tile-hub-blog">
+            <HubCard
+              href="/blog"
+              kicker="連載"
+              title="記録"
+              meta={latestPost ? latestPost.data.title : "準備中"}
+              variant="plate"
+            />
+          </SharedTile>
+        </div>
+      </SectionTheme>
+      <SectionTheme id="hub-certifications" theme="mist" pin>
+        <div class="shell">
+          <SharedTile name="tile-hub-certifications">
+            <HubCard
+              href="/certifications"
+              kicker="奥付"
+              title="資格"
+              meta={latestCert ? latestCert.data.name : "準備中"}
+              variant="plate"
+            />
+          </SharedTile>
+        </div>
+      </SectionTheme>
+    </div>
+  </StackedCards>
+
+  <SectionTheme id="contact" theme="cover">
+    <div class="shell">
+      <p class="card-kicker">刊記</p>
+      <MaskReveal as="h2" class="display-name">
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </MaskReveal>
+      <p>
+        <SharedTile name="tile-hub-contact">
+          <a href="/contact">連絡先ページを開く</a>
+        </SharedTile>
+      </p>
+    </div>
+  </SectionTheme>
+</BaseLayout>

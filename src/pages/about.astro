@@ -1,0 +1,48 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import MaskReveal from "../components/motion/MaskReveal.astro";
+import SharedTile from "../components/motion/SharedTile.astro";
+import { profile } from "../data/profile";
+import { site } from "../data/site";
+---
+
+<BaseLayout title="略歴" theme="about" description={profile.bio}>
+  <section class="band" data-theme-section data-to-theme="about">
+    <div class="shell two-col">
+      <div class="about-pin">
+        <SharedTile name="tile-hub-about">
+          <p class="card-kicker">略歴</p>
+          <MaskReveal as="h1">{site.name}</MaskReveal>
+          <p class="lead">{site.lead}</p>
+          <p class="measure">{profile.bio}</p>
+        </SharedTile>
+      </div>
+      <div data-theme-section data-to-theme="dusk">
+        <MaskReveal as="h2">職歴</MaskReveal>
+        {
+          profile.career.map((item) => (
+            <article class="career-item">
+              <p class="muted">{item.period}</p>
+              <h3>{item.title}</h3>
+              <p>{item.org}</p>
+              <p class="muted">{item.summary}</p>
+            </article>
+          ))
+        }
+        <MaskReveal as="h2">スキル</MaskReveal>
+        {
+          profile.skills.map((group) => (
+            <div class="career-item">
+              <h3>{group.category}</h3>
+              <ul class="chip-list">
+                {group.items.map((item) => (
+                  <li class="chip">{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

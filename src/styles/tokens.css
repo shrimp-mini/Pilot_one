@@ -1,0 +1,81 @@
+:root {
+  --ink: #0a0d12;
+  --ink-2: #161c26;
+  --paper: #f4efe6;
+  --paper-2: #e7e0d4;
+  --accent: #d4a017;
+  --accent-hover: #e0b42e;
+  --rule: color-mix(in srgb, var(--fg) 18%, transparent);
+
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --muted: color-mix(in srgb, var(--ink) 58%, transparent);
+  --surface: var(--paper-2);
+
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 2rem;
+  --step-3: clamp(2.5rem, 6vw, 5rem);
+  --step-display: clamp(3.5rem, 10vw, 8rem);
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --measure: 42rem;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-fast: 120ms;
+  --t-mid: 280ms;
+  --t-slow: 450ms;
+
+  --bp-md: 768px;
+  --bp-lg: 1100px;
+
+  --z-grid: 0;
+  --z-content: 1;
+  --z-pin: 2;
+  --z-chrome: 10;
+
+  --font-display: "Newsreader", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-body: "IBM Plex Sans", "IBM Plex Sans JP", "Hiragino Sans", sans-serif;
+  --header-height: 4.5rem;
+}
+
+html[data-theme="cover"] {
+  --bg: var(--ink);
+  --fg: var(--paper);
+  --muted: color-mix(in srgb, var(--paper) 70%, transparent);
+  --surface: var(--ink-2);
+}
+
+html[data-theme="dusk"],
+html[data-theme="about"] {
+  --bg: var(--ink-2);
+  --fg: var(--paper);
+  --muted: color-mix(in srgb, var(--paper) 65%, transparent);
+  --surface: #1c2430;
+}
+
+html[data-theme="about"] {
+  --bg: #141a22;
+}
+
+html[data-theme="paper"] {
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --muted: color-mix(in srgb, var(--ink) 58%, transparent);
+  --surface: var(--paper-2);
+}
+
+html[data-theme="mist"] {
+  --bg: #e4e2dc;
+  --fg: var(--ink);
+  --muted: color-mix(in srgb, var(--ink) 55%, transparent);
+  --surface: #efede7;
+}

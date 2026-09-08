@@ -1,0 +1,61 @@
+---
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import MaskReveal from "../../components/motion/MaskReveal.astro";
+import SharedTile from "../../components/motion/SharedTile.astro";
+
+export async function getStaticPaths() {
+  const works = await getCollection("works");
+  return works.map((work) => ({
+    params: { slug: work.id },
+    props: { work },
+  }));
+}
+
+interface Props {
+  work: CollectionEntry<"works">;
+}
+
+const { work } = Astro.props;
+const { Content } = await render(work);
+const dateLabel = work.data.date.toISOString().slice(0, 10);
+---
+
+<BaseLayout
+  title={work.data.title}
+  theme="cover"
+  description={work.data.summary}
+>
+  <section class="band" data-theme-section data-to-theme="cover">
+    <SharedTile name={`tile-work-${work.id}`} class="shell hero-block">
+      <p class="card-kicker">{dateLabel}</p>
+      <MaskReveal as="h1">{work.data.title}</MaskReveal>
+      <p class="lead">{work.data.summary}</p>
+    </SharedTile>
+  </section>
+  <section class="band" data-theme-section data-to-theme="paper">
+    <div class="shell measure prose">
+      <Content />
+      {
+        work.data.tags.length > 0 && (
+          <ul class="chip-list">
+            {work.data.tags.map((tag) => (
+              <li class="chip">{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+      {
+        work.data.url && (
+          <p>
+            <a href={work.data.url} rel="noreferrer">
+              外部リンク
+            </a>
+          </p>
+        )
+      }
+      <p><a href="/works">一覧へ戻る</a></p>
+    </div>
+  </section>
+</BaseLayout>

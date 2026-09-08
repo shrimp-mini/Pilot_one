@@ -1,0 +1,40 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ArticleCard from "../../components/ui/ArticleCard.astro";
+import MaskReveal from "../../components/motion/MaskReveal.astro";
+import SharedTile from "../../components/motion/SharedTile.astro";
+
+const posts = (await getCollection("blog"))
+  .filter((entry) => !entry.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<BaseLayout title="連載" theme="mist" description="記録とメモ">
+  <section class="band band-mist">
+    <div class="shell">
+      <p class="card-kicker">連載</p>
+      <SharedTile name="tile-hub-blog">
+        <MaskReveal as="h1">記録</MaskReveal>
+      </SharedTile>
+      {
+        posts.length === 0 ? (
+          <p class="empty">準備中</p>
+        ) : (
+          <div class="card-grid">
+            {posts.map((post) => (
+              <SharedTile name={`tile-post-${post.id}`}>
+                <ArticleCard
+                  href={`/blog/${post.id}`}
+                  title={post.data.title}
+                  summary={post.data.summary}
+                  date={post.data.date}
+                />
+              </SharedTile>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,20 @@
+---
+interface Props {
+  id?: string;
+  theme: string;
+  pin?: boolean;
+}
+
+const { id, theme, pin = false } = Astro.props;
+---
+
+<section
+  id={id}
+  class:list={["band", "theme-section", pin && "sticky-expand"]}
+  data-theme-section
+  data-to-theme={theme}
+>
+  <div class:list={[pin && "sticky-expand-inner"]}>
+    <slot />
+  </div>
+</section>
